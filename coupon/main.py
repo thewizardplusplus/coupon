@@ -1,13 +1,19 @@
 import sys
 
+from admitad import items
+
 from . import logger
 from . import env
+from . import client
 
 def main():
     logger.init_logger()
 
     try:
         env.init_env()
+
+        client_obj = client.init_client(items.Me.SCOPE)
+        print(client_obj.Me.get())
     except Exception as exception:
         logger.get_logger().error(exception)
         sys.exit(1)
