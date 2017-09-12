@@ -11,7 +11,8 @@ def main():
         env.init_env()
 
         client_obj = client.init_client()
-        print(client.get_coupons(client_obj))
+        coupons = client.handle_pagination(client_obj, client.get_coupons)
+        print(list(coupons))
     except Exception as exception:
         logger.get_logger().error(exception)
         sys.exit(1)
