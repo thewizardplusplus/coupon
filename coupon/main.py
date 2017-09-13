@@ -3,6 +3,7 @@ import sys
 from . import logger
 from . import env
 from . import client
+from . import output
 
 def main():
     logger.init_logger()
@@ -12,7 +13,7 @@ def main():
 
         client_obj = client.init_client()
         coupons = client.handle_pagination(client_obj, client.get_coupons)
-        print(list(coupons))
+        output.output_coupons(coupons)
     except Exception as exception:
         logger.get_logger().error(exception)
         sys.exit(1)
