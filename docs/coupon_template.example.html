@@ -1,0 +1,16 @@
+<!-- SHOP_NAME {{ coupon.campaign.name }} -->
+<p>
+  <strong>Срок акции:</strong> до {{ coupon.date_end }}
+</p>
+<p>
+  <strong>Сайт акции:</strong>
+  <a href="{{ coupon.goto_link }}">{{ coupon.goto_link }}</a>
+</p>
+{% if coupon.description %}
+  <p>
+    <strong>Условия акции:</strong>
+  </p>
+  <div>
+    {{ coupon.description|e }}
+  </div>
+{% endif %}
