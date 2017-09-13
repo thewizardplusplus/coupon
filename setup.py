@@ -17,6 +17,7 @@ setuptools.setup(
         'termcolor >=1.1.0, <2.0',
         'python-dotenv >=0.7.1, <1.0',
         'admitad >=1.1.1, <2.0',
+        'Jinja2 >=2.9.6, <3.0',
     ],
     python_requires='>=3.5, <4.0',
     entry_points={'console_scripts': ['{0} = {0}:main'.format(package_name)]},
