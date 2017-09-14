@@ -10,7 +10,5 @@
   <p>
     <strong>Условия акции:</strong>
   </p>
-  <div>
-    {{ coupon.description|e }}
-  </div>
+  {{ coupon.description|e|to_paragraphs }}
 {% endif %}
