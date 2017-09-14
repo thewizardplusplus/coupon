@@ -1,15 +1,26 @@
+import locale
 import os
 
 import jinja2
 
 from . import logger
+from . import consts
 
 def output_coupons(coupons):
+    # sets the locale setting for the datetime.strptime() function
+    locale.setlocale(locale.LC_ALL, (
+        os.environ.get('COUPON_LOCALE', 'en_US'),
+        'UTF-8',
+    ))
+
     base_path = os.environ.get('COUPON_OUTPUT_PATH', './coupons/')
     os.makedirs(base_path, exist_ok=True)
 
     with open(os.environ['COUPON_TEMPLATE'], encoding='utf-8') as template_file:
-        template = jinja2.Template(template_file.read())
+        environment = jinja2.Environment(autoescape=True)
+        environment.filters['format_timestamp'] = format_timestamp
+
+        template = environment.from_string(template_file.read())
 
     for coupon in coupons:
         output_coupon(coupon, base_path, template)
@@ -26,3 +37,6 @@ def output_coupon(coupon, base_path, template):
 
 def format_coupon(coupon, template):
     return template.render(coupon=coupon)
+
+def format_timestamp(timestamp, format_=consts.ADMITAD_TIMESTAMP_FORMAT):
+    return timestamp.strftime(format_)

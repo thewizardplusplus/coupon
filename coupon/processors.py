@@ -1,7 +1,7 @@
 import datetime
 import functools
 
-ADMITAD_TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S'
+from . import consts
 
 def process_coupons(coupons, processors):
     global_processor = compose(*processors)
@@ -10,11 +10,11 @@ def process_coupons(coupons, processors):
 def parse_dates(coupon):
     coupon['date_start'] = datetime.datetime.strptime(
         coupon['date_start'],
-        ADMITAD_TIMESTAMP_FORMAT,
+        consts.ADMITAD_TIMESTAMP_FORMAT,
     )
     coupon['date_end'] = datetime.datetime.strptime(
         coupon['date_end'],
-        ADMITAD_TIMESTAMP_FORMAT,
+        consts.ADMITAD_TIMESTAMP_FORMAT,
     )
 
     return coupon

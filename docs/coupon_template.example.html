@@ -1,6 +1,6 @@
 <!-- SHOP_NAME {{ coupon.campaign.name }} -->
 <p>
-  <strong>Срок акции:</strong> до {{ coupon.date_end }}
+  <strong>Срок акции:</strong> до {{ coupon.date_end|format_timestamp('%x') }}
 </p>
 <p>
   <strong>Сайт акции:</strong>
