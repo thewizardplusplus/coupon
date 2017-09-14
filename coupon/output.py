@@ -30,7 +30,7 @@ def output_coupon(coupon, base_path, template):
         with open(os.path.join(
             base_path,
             'coupon_{}.html'.format(coupon['id']),
-        ), mode='x', encoding='utf-8') as coupon_file:
+        ), mode='w', encoding='utf-8') as coupon_file:
             coupon_file.write(format_coupon(coupon, template))
     except Exception as exception:
         logger.get_logger().warning(exception)
