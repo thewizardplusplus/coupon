@@ -14,7 +14,9 @@ def main():
 
         client_obj = client.init_client()
         coupons = client.handle_pagination(client_obj, client.get_coupons)
-        coupons = processors.process_coupons(coupons, [])
+        coupons = processors.process_coupons(coupons, [
+            processors.parse_dates,
+        ])
         output.output_coupons(coupons)
     except Exception as exception:
         logger.get_logger().error(exception)
