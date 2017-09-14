@@ -16,6 +16,7 @@ def main():
         coupons = client.handle_pagination(client_obj, client.get_coupons)
         coupons = processors.process_coupons(coupons, [
             processors.parse_dates,
+            processors.remove_i3_param,
         ])
         output.output_coupons(coupons)
     except Exception as exception:
