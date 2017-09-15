@@ -1,4 +1,6 @@
 <!-- SHOP_NAME {{ coupon.campaign.name }} -->
+{% set cut_mark = '<!--more-->' %}
+
 <p>
   <strong>Срок акции:</strong> до {{ coupon.date_end|format_timestamp('%x') }}
 </p>
@@ -10,5 +12,5 @@
   <p>
     <strong>Условия акции:</strong>
   </p>
-  {{ coupon.description|e|cut('<!--more-->')|to_paragraphs }}
+  {{ coupon.description|e|cut(cut_mark)|to_paragraphs(cut_mark) }}
 {% endif %}
