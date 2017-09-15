@@ -10,5 +10,5 @@
   <p>
     <strong>Условия акции:</strong>
   </p>
-  {{ coupon.description|e|to_paragraphs }}
+  {{ coupon.description|e|cut('<!--more-->')|to_paragraphs }}
 {% endif %}
