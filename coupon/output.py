@@ -17,8 +17,14 @@ def output_coupons(coupons):
         'UTF-8',
     ))
 
-    base_path = os.environ.get('COUPON_OUTPUT_PATH', './coupons/')
-    os.makedirs(base_path, exist_ok=True)
+    mode = os.environ.get('COUPON_OUTPUT_MODE', 'FILES')
+    if mode not in ['FILES', 'STDOUT']:
+        raise Exception('incorrect output mode ' + mode)
+
+    base_path = None
+    if mode == 'FILES':
+        base_path = os.environ.get('COUPON_OUTPUT_PATH', './coupons/')
+        os.makedirs(base_path, exist_ok=True)
 
     with open(os.environ['COUPON_TEMPLATE'], encoding='utf-8') as template_file:
         environment = jinja2.Environment(autoescape=False)
@@ -29,9 +35,12 @@ def output_coupons(coupons):
         template = environment.from_string(template_file.read())
 
     for coupon in coupons:
-        output_coupon(coupon, base_path, template)
+        if mode == 'FILES':
+            output_coupon_to_file(coupon, template, base_path)
+        elif mode == 'STDOUT':
+            output_coupon_to_stdout(coupon, template)
 
-def output_coupon(coupon, base_path, template):
+def output_coupon_to_file(coupon, template, base_path):
     try:
         with open(os.path.join(
             base_path,
@@ -40,6 +49,9 @@ def output_coupon(coupon, base_path, template):
             coupon_file.write(format_coupon(coupon, template))
     except Exception as exception:
         logger.get_logger().warning(exception)
+
+def output_coupon_to_stdout(coupon, template):
+    print(format_coupon(coupon, template))
 
 def format_coupon(coupon, template):
     return template.render(coupon=coupon)
