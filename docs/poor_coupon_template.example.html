@@ -1,0 +1,8 @@
+{{ coupon.campaign.name|trim|flatten('#') -}}
+@{{ coupon.short_name|trim|flatten('#') -}}
+@{{ coupon.name|trim|flatten('#') -}}
+@{{ coupon.date_start|format_timestamp('%Y-%m-%d %H:%M:%S') -}}
+@{{ coupon.date_end|format_timestamp('%Y-%m-%d %H:%M:%S') -}}
+@{{ coupon.description|trim|flatten('#') -}}
+@{{ coupon.promocode|trim|flatten('#') -}}
+@{{ coupon.goto_link }}
