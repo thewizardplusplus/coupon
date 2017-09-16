@@ -29,6 +29,7 @@ def output_coupons(coupons):
     with open(os.environ['COUPON_TEMPLATE'], encoding='utf-8') as template_file:
         environment = jinja2.Environment(autoescape=False)
         environment.filters['format_timestamp'] = format_timestamp
+        environment.filters['flatten'] = flatten
         environment.filters['cut'] = cut
         environment.filters['to_paragraphs'] = to_paragraphs
 
@@ -58,6 +59,9 @@ def format_coupon(coupon, template):
 
 def format_timestamp(timestamp, format_=consts.ADMITAD_TIMESTAMP_FORMAT):
     return timestamp.strftime(format_)
+
+def flatten(text, line_break_placeholder):
+    return PARAGRAPH_PATTERN.sub(line_break_placeholder, text)
 
 def cut(text, cut_mark):
     first_paragraph, *rest_text = PARAGRAPH_PATTERN.split(
