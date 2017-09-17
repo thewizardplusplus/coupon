@@ -3,13 +3,22 @@ import os
 from admitad import api
 from admitad import items
 from admitad import constants
+import termcolor
+
+from . import logger
 
 def init_client():
-    return api.get_oauth_client_client(
+    client = api.get_oauth_client_client(
         os.environ['COUPON_ADMITAD_ID'],
         os.environ['COUPON_ADMITAD_SECRET'],
         ' '.join([items.CouponsForWebsite.SCOPE]),
     )
+    logger.get_logger().info(
+        'init %s client',
+        termcolor.colored('admitad', 'magenta'),
+    )
+
+    return client
 
 def handle_pagination(client, requester):
     counter = 0
