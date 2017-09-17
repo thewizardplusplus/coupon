@@ -29,9 +29,15 @@ def handle_pagination(client, requester):
             offset=offset,
             limit=constants.MAX_PAGINATION_LIMIT,
         )
+        counter = response['_meta']['count']
+        logger.get_logger().info(
+            'load %s/%s items',
+            termcolor.colored(str(offset + len(response['results'])), 'yellow'),
+            termcolor.colored(str(counter), 'yellow'),
+        )
+
         yield from response['results']
 
-        counter = response['_meta']['count']
         offset += constants.MAX_PAGINATION_LIMIT
         if offset >= counter:
             break
