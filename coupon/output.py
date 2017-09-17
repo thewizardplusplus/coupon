@@ -2,6 +2,7 @@ import re
 import locale
 import os
 
+import termcolor
 import jinja2
 
 from . import logger
@@ -26,7 +27,13 @@ def output_coupons(coupons):
         base_path = os.environ.get('COUPON_OUTPUT_PATH', './coupons/')
         os.makedirs(base_path, exist_ok=True)
 
-    with open(os.environ['COUPON_TEMPLATE'], encoding='utf-8') as template_file:
+        logger.get_logger().info(
+            'create the output directory ' \
+                + termcolor.colored(base_path, 'green'),
+        )
+
+    template_filename = os.environ['COUPON_TEMPLATE']
+    with open(template_filename, encoding='utf-8') as template_file:
         environment = jinja2.Environment(autoescape=False)
         environment.filters['format_timestamp'] = format_timestamp
         environment.filters['flatten'] = flatten
@@ -34,12 +41,21 @@ def output_coupons(coupons):
         environment.filters['to_paragraphs'] = to_paragraphs
 
         template = environment.from_string(template_file.read())
+        logger.get_logger().info(
+            'load the coupon template ' \
+                + termcolor.colored(template_filename, 'green'),
+        )
 
     for coupon in coupons:
         if mode == 'FILES':
             output_coupon_to_file(coupon, template, base_path)
         elif mode == 'STDOUT':
             output_coupon_to_stdout(coupon, template)
+
+        logger.get_logger().info(
+            'process the coupon ' \
+                + termcolor.colored('#' + str(coupon['id']), 'yellow'),
+        )
 
 def output_coupon_to_file(coupon, template, base_path):
     try:
