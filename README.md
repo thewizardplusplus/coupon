@@ -71,6 +71,10 @@ See details about the format: https://github.com/motdotla/dotenv#rules.
 
 A `.env` config will never modify any environment variables that have already been set.
 
+## Microlanguage Grammar
+
+[Microlanguage grammar](docs/microlanguage_grammar.md).
+
 ## License
 
 The MIT License (MIT)
