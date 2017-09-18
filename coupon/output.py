@@ -100,9 +100,9 @@ def cut(text, cut_mark):
             else text_parts
     )
 
-def to_paragraphs(text, cut_mark=''):
+def to_paragraphs(text, paragraph_format='<p>{}</p>', cut_mark=''):
     return '\n'.join(
-        '<p>{}</p>'.format(paragraph) \
+        paragraph_format.format(paragraph) \
             if len(cut_mark) == 0 or paragraph != cut_mark \
             else cut_mark
         for paragraph in PARAGRAPH_PATTERN.split(text.strip())
