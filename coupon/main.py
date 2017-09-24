@@ -19,9 +19,9 @@ def main():
         db_connection = db.init_db()
         coupons = filters.filter_coupons(db_connection, coupons)
         coupons = processors.process_coupons(coupons, [
-            processors.make_campaigns_register(db_connection),
             processors.parse_dates,
             processors.remove_i3_param,
+            processors.make_campaigns_register(db_connection),
         ])
         output.output_coupons(coupons)
     except Exception as exception:
