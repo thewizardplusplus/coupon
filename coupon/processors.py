@@ -4,6 +4,7 @@ import functools
 
 from . import consts
 from . import logger
+from . import db
 
 def process_coupons(coupons, processors):
     global_processor = compose(*processors)
@@ -40,6 +41,13 @@ def remove_i3_param(coupon):
         logger.get_logger().warning(exception)
 
     return coupon
+
+def make_campaigns_register(db_connection):
+    def campaigns_register(coupon):
+        db.register_campaign(db_connection, coupon['campaign']['name'])
+        return coupon
+
+    return campaigns_register
 
 # https://mathieularose.com/function-composition-in-python/
 def compose(*functions):

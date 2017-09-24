@@ -27,6 +27,7 @@ def main():
                 or (filter_by_database(coupon) and filter_by_script(coupon))
         )
         coupons = processors.process_coupons(coupons, [
+            processors.make_campaigns_register(db_connection),
             processors.parse_dates,
             processors.remove_i3_param,
         ])
