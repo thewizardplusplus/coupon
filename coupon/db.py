@@ -27,3 +27,11 @@ def init_db():
 def register_campaign(db_connection, name):
     with db_connection:
         db_connection.execute('INSERT INTO campaigns(name) VALUES(?)', (name,))
+
+def count_registered_campaigns(db_connection, name, interval):
+    (counter,) = db_connection.execute('''
+        SELECT COUNT(*)
+        FROM campaigns
+        WHERE name=? AND timestamp >= DATETIME('now', ?)
+    ''', (name, '-{:d} seconds'.format(interval))).fetchone()
+    return counter
