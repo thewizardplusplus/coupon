@@ -8,7 +8,11 @@ from . import db
 
 def process_coupons(coupons, processors):
     global_processor = compose(*processors)
-    return (global_processor(coupon) for coupon in coupons)
+    for coupon in coupons:
+        try:
+            yield global_processor(coupon)
+        except Exception as exception:
+            logger.get_logger().warning(exception)
 
 def parse_dates(coupon):
     coupon['date_start'] = datetime.datetime.strptime(
@@ -23,22 +27,19 @@ def parse_dates(coupon):
     return coupon
 
 def remove_i3_param(coupon):
-    try:
-        url = urllib.parse.urlparse(coupon['goto_link'])
-        query = urllib.parse.parse_qs(url.query)
-        if 'i' in query and query['i'] == ['3']:
-            del query['i']
+    url = urllib.parse.urlparse(coupon['goto_link'])
+    query = urllib.parse.parse_qs(url.query)
+    if 'i' in query and query['i'] == ['3']:
+        del query['i']
 
-        coupon['goto_link'] = urllib.parse.urlunparse(urllib.parse.ParseResult(
-            scheme=url.scheme,
-            netloc=url.netloc,
-            path=url.path,
-            params=url.params,
-            query=urllib.parse.urlencode(query),
-            fragment=url.fragment,
-        ))
-    except Exception as exception:
-        logger.get_logger().warning(exception)
+    coupon['goto_link'] = urllib.parse.urlunparse(urllib.parse.ParseResult(
+        scheme=url.scheme,
+        netloc=url.netloc,
+        path=url.path,
+        params=url.params,
+        query=urllib.parse.urlencode(query),
+        fragment=url.fragment,
+    ))
 
     return coupon
 
