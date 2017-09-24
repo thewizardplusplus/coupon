@@ -47,25 +47,25 @@ def output_coupons(coupons):
         )
 
     for coupon in coupons:
-        if mode == 'FILES':
-            output_coupon_to_file(coupon, template, base_path)
-        elif mode == 'STDOUT':
-            output_coupon_to_stdout(coupon, template)
+        try:
+            if mode == 'FILES':
+                output_coupon_to_file(coupon, template, base_path)
+            elif mode == 'STDOUT':
+                output_coupon_to_stdout(coupon, template)
 
-        logger.get_logger().info(
-            'process the coupon ' \
-                + termcolor.colored('#' + str(coupon['id']), 'yellow'),
-        )
+            logger.get_logger().info(
+                'process the coupon ' \
+                    + termcolor.colored('#' + str(coupon['id']), 'yellow'),
+            )
+        except Exception as exception:
+            logger.get_logger().warning(exception)
 
 def output_coupon_to_file(coupon, template, base_path):
-    try:
-        with open(os.path.join(
-            base_path,
-            'coupon_{}.html'.format(coupon['id']),
-        ), mode='w', encoding='utf-8') as coupon_file:
-            coupon_file.write(format_coupon(coupon, template))
-    except Exception as exception:
-        logger.get_logger().warning(exception)
+    with open(os.path.join(
+        base_path,
+        'coupon_{}.html'.format(coupon['id']),
+    ), mode='w', encoding='utf-8') as coupon_file:
+        coupon_file.write(format_coupon(coupon, template))
 
 def output_coupon_to_stdout(coupon, template):
     print(format_coupon(coupon, template))
