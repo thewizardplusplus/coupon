@@ -1,14 +1,5 @@
 import functools
 
-from .. import logger
-
-def safe_evaluate(node, context):
-    try:
-        return evaluate_or_expression(node, context)
-    except Exception as exception:
-        logger.get_logger().warning(exception)
-        return False
-
 def evaluate_or_expression(node, context):
     return any(evaluate_and_expression(node, context) for node in node.children)
 
