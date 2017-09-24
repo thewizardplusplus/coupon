@@ -51,6 +51,6 @@ def make_filter_by_database(db_connection):
     interval = abs(int(os.environ.get('COUPON_INTERVAL', str(24 * 60 * 60))))
     return lambda coupon: number >= db.count_registered_campaigns(
         db_connection,
-        coupon['campaign']['name'],
+        coupon['campaign']['name'].strip(),
         interval,
     )

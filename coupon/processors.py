@@ -45,7 +45,7 @@ def remove_i3_param(coupon):
 
 def make_campaigns_register(db_connection):
     def campaigns_register(coupon):
-        db.register_campaign(db_connection, coupon['campaign']['name'])
+        db.register_campaign(db_connection, coupon['campaign']['name'].strip())
         return coupon
 
     return campaigns_register
