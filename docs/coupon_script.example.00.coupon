@@ -1,1 +1,2 @@
-types.0.name =~ /Бесплатная доставка/ && !(description =~ /\d{4}/)
+types.0.name =~ /Бесплатная доставка/
+  && !(short_name|name|description =~ /\d{4,}/)

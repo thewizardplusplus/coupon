@@ -21,10 +21,16 @@ def evaluate_atom(node, context):
         else evaluate_filter(node, context)
 
 def evaluate_filter(node, context):
-    return node.children[1].search(evaluate_identifier(
-        node.children[0],
-        context,
-    ))
+    return any(
+        node.children[1].search(value)
+        for value in evaluate_identifier_list(node.children[0], context)
+    )
+
+def evaluate_identifier_list(node, context):
+    return (
+        evaluate_identifier(identifier, context)
+        for identifier in node.children
+    )
 
 def evaluate_identifier(node, context):
     return str(get_nested_item(context, node.children))
