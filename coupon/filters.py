@@ -6,9 +6,9 @@ from . import logger
 from .script import parse
 from .script import evaluate
 
-def filter_coupons_by_script(coupons):
+def make_filter_by_script():
     if 'COUPON_SCRIPT' not in os.environ:
-        return coupons
+        return lambda coupon: True
 
     script_filename = os.environ['COUPON_SCRIPT']
     with open(script_filename, encoding='utf-8') as script_file:
@@ -18,8 +18,4 @@ def filter_coupons_by_script(coupons):
         'load the filter script ' + termcolor.colored(script_filename, 'green'),
     )
 
-    return (
-        coupon
-        for coupon in coupons
-        if evaluate.safe_evaluate(ast, coupon)
-    )
+    return lambda coupon: evaluate.safe_evaluate(ast, coupon)
