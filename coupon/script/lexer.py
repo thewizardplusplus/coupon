@@ -18,7 +18,7 @@ class Lexer:
     t_AND_OPERATOR = '&&'
     t_OR_OPERATOR = '\|\|'
     t_ignore = ' \t\n\r'
-    literals = '.!()'
+    literals = '.|!()'
     errors = []
 
     def __init__(self):
