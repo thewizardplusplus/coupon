@@ -3,6 +3,7 @@ import os
 import termcolor
 
 from . import logger
+from . import db
 from .script import parse
 from .script import evaluate
 
@@ -29,3 +30,15 @@ def make_filter_by_campaigns():
     ]
     return lambda coupon: \
         coupon.get('campaign', {}).get('name', '').strip() in required_campaigns
+
+def make_filter_by_database(db_connection):
+    if db_connection is None:
+        return lambda coupon: True
+
+    number = abs(int(os.environ.get('COUPON_NUMBER', '1')))
+    interval = abs(int(os.environ.get('COUPON_INTERVAL', str(24 * 60 * 60))))
+    return lambda coupon: number >= db.count_registered_campaigns(
+        db_connection,
+        coupon.get('campaign', {}).get('name', ''),
+        interval,
+    )
