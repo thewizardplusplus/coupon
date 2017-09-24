@@ -48,7 +48,7 @@ class Parser:
             children=[node[2 if len(node) == 4 else 1]],
         )
 
-    @_rule('filter : identifier MATCH_OPERATOR REGULAR_EXPRESSION')
+    @_rule('filter : identifier_list MATCH_OPERATOR REGULAR_EXPRESSION')
     def p_filter(self, node):
         try:
             node[0] = ast_node.AstNode(
@@ -59,6 +59,11 @@ class Parser:
             self._process_error(
                 'incorrect regular expression: ' + str(exception),
             )
+
+    @_rule('''identifier_list : identifier
+        | identifier_list '|' identifier''')
+    def p_identifier_list(self, node):
+        _process_list('identifier_list', node)
 
     @_rule('''identifier : IDENTIFIER
         | identifier '.' IDENTIFIER''')
