@@ -23,3 +23,7 @@ def init_db():
     )
 
     return db_connection
+
+def register_campaign(db_connection, name):
+    with db_connection:
+        db_connection.execute('INSERT INTO campaigns(name) VALUES(?)', (name,))
