@@ -19,3 +19,13 @@ def make_filter_by_script():
     )
 
     return lambda coupon: evaluate.safe_evaluate(ast, coupon)
+
+def make_filter_by_campaigns():
+    required_campaigns = [
+        campaign
+        for campaign in os.environ.get('COUPON_CAMPAIGNS', '').split(',')
+        for campaign in (campaign.strip(),)
+        if len(campaign) != 0
+    ]
+    return lambda coupon: \
+        coupon.get('campaign', {}).get('name', '').strip() in required_campaigns

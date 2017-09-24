@@ -15,11 +15,12 @@ def main():
 
         client_obj = client.init_client()
         coupons = client.handle_pagination(client_obj, client.get_coupons)
+        filter_by_campaigns = filters.make_filter_by_campaigns()
         filter_by_script = filters.make_filter_by_script()
         coupons = (
             coupon
             for coupon in coupons
-            if filter_by_script(coupon)
+            if filter_by_campaigns(coupon) or filter_by_script(coupon)
         )
         coupons = processors.process_coupons(coupons, [
             processors.parse_dates,
