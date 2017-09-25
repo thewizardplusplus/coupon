@@ -6,7 +6,7 @@ import termcolor
 from . import logger
 
 def init_db():
-    db_filename = os.environ.get('COUPON_DATABASE', './campaigns.db').strip()
+    db_filename = os.environ.get('COUPON_DATABASE', './coupon.db').strip()
     if len(db_filename) == 0:
         return None
 
@@ -16,6 +16,10 @@ def init_db():
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             timestamp TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
             name TEXT NOT NULL
+        )''')
+        db_connection.execute('''CREATE TABLE IF NOT EXISTS coupons (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            coupon_id INTEGER NOT NULL UNIQUE
         )''')
 
     logger.get_logger().info(
