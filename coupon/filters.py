@@ -8,13 +8,16 @@ from .script import parse
 from .script import evaluate
 
 def filter_coupons(db_connection, coupons):
+    filter_by_id = make_filter_by_id(db_connection)
     filter_by_campaigns = make_filter_by_campaigns()
     filter_by_database = make_filter_by_database(db_connection)
     filter_by_script = make_filter_by_script()
     for coupon in coupons:
         try:
-            if filter_by_campaigns(coupon) \
-                or (filter_by_database(coupon) and filter_by_script(coupon)):
+            if filter_by_id(coupon) \
+                and (filter_by_campaigns(coupon) \
+                    or (filter_by_database(coupon) \
+                        and filter_by_script(coupon))):
                 yield coupon
         except Exception as exception:
             logger.get_logger().warning(exception)
@@ -53,4 +56,13 @@ def make_filter_by_database(db_connection):
         db_connection,
         coupon['campaign']['name'].strip(),
         interval,
+    )
+
+def make_filter_by_id(db_connection):
+    if db_connection is None:
+        return lambda coupon: True
+
+    return lambda coupon: not db.find_registered_coupon(
+        db_connection,
+        coupon['id'],
     )
