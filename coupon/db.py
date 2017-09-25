@@ -32,6 +32,13 @@ def register_campaign(db_connection, name):
     with db_connection:
         db_connection.execute('INSERT INTO campaigns(name) VALUES(?)', (name,))
 
+def register_coupon(db_connection, coupon_id):
+    with db_connection:
+        db_connection.execute(
+            'INSERT INTO coupons(coupon_id) VALUES(?)',
+            (coupon_id,),
+        )
+
 def count_registered_campaigns(db_connection, name, interval):
     (counter,) = db_connection.execute('''
         SELECT COUNT(*)
