@@ -46,3 +46,10 @@ def count_registered_campaigns(db_connection, name, interval):
         WHERE name=? AND timestamp >= DATETIME('now', ?)
     ''', (name, '-{:d} seconds'.format(interval))).fetchone()
     return counter
+
+def find_registered_coupon(db_connection, coupon_id):
+    (counter,) = db_connection.execute(
+        'SELECT COUNT(*) FROM coupons WHERE coupon_id=?',
+        (coupon_id,),
+    ).fetchone()
+    return bool(counter)
