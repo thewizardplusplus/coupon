@@ -22,6 +22,7 @@ def main():
             processors.parse_dates,
             processors.remove_i3_param,
             processors.make_campaigns_register(db_connection),
+            processors.make_coupons_register(db_connection),
         ])
         output.output_coupons(coupons)
     except Exception as exception:

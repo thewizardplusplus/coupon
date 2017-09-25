@@ -53,6 +53,16 @@ def make_campaigns_register(db_connection):
 
     return campaigns_register
 
+def make_coupons_register(db_connection):
+    if db_connection is None:
+        return lambda coupon: coupon
+
+    def coupons_register(coupon):
+        db.register_coupon(db_connection, coupon['id'])
+        return coupon
+
+    return coupons_register
+
 # https://mathieularose.com/function-composition-in-python/
 def compose(*functions):
     return functools.reduce(
