@@ -7,7 +7,8 @@ or expression = and expression, {"||", and expression};
 and expression = not expression, {"&&", not expression};
 not expression = ["!"], atom;
 atom = filter | ("(", script, ")");
-filter = identifier, "=~", REGULAR EXPRESSION;
+filter = identifier list, "=~", REGULAR EXPRESSION;
+identifier list = identifier, {"|", identifier};
 identifier = IDENTIFIER, {".", IDENTIFIER};
 
 IDENTIFIER = ? /\w+/ ?;
