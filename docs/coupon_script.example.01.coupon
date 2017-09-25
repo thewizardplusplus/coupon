@@ -1,0 +1,26 @@
+id =~ /nonexistent/
+
+# скидка
+|| ((short_name|name|description =~ /(?i)скидк/
+    || short_name|name|description =~ /(?i)до \d\d%/
+    || short_name|name|description =~ /(?i)up to \d\d%/)
+  && (short_name|name|description =~ /2[5-9]%/
+    || short_name|name|description =~ /[3-9]\d%/))
+
+# бесплатная доставка
+|| (short_name|name|description =~ /(?i)бесплатн/
+  && short_name|name|description =~ /(?i)достав/
+  && !((short_name|name|description =~ /(?i)(от|свыше|более) \d[\d,. ]+\d ?р/
+      || short_name|name|description
+        =~ /(?i)минимальная (сумма|стоимость) заказа \d[\d,. ]+\d ?р/)
+      || short_name|name|description
+        =~ /(?i)осуществляется при .* \d[\d,. ]+\d ?р/
+    && short_name|name|description =~ /(?i)(\d+ )?\d{3,}([,.]\d\d)? ?р/))
+
+# подарок
+|| (short_name|name|description =~ /(?i)в подарок/
+  && !((short_name|name|description =~ /(?i)(от|свыше|более) \d[\d,. ]+\d ?р/
+      || short_name|name|description
+        =~ /(?i)минимальная (сумма|стоимость) заказа \d[\d,. ]+\d ?р/)
+    && short_name|name|description =~ /(?i)([3-9]|\d{2,}) ?\d{3}([,.]\d\d)? ?р/
+    && !(short_name|name|description =~ /(?i)3 ?000 ?р/)))
