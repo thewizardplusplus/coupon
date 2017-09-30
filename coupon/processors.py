@@ -2,6 +2,8 @@ import datetime
 import urllib.parse
 import functools
 
+import requests
+
 from . import consts
 from . import logger
 from . import db
@@ -23,6 +25,19 @@ def parse_dates(coupon):
         coupon['date_end'],
         consts.ADMITAD_TIMESTAMP_FORMAT,
     )
+
+    return coupon
+
+def generate_final_link(coupon):
+    url = urllib.parse.urlparse(requests.get(coupon['goto_link']).url)
+    coupon['final_link'] = urllib.parse.urlunparse(urllib.parse.ParseResult(
+        scheme=url.scheme,
+        netloc=url.netloc,
+        path=url.path,
+        params=url.params,
+        query='',
+        fragment=url.fragment,
+    ))
 
     return coupon
 

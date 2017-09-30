@@ -20,6 +20,7 @@ def main():
         coupons = filters.filter_coupons(db_connection, coupons)
         coupons = processors.process_coupons(coupons, [
             processors.parse_dates,
+            processors.generate_final_link,
             processors.remove_i3_param,
             processors.make_campaigns_register(db_connection),
             processors.make_coupons_register(db_connection),

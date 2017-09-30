@@ -19,6 +19,7 @@ setuptools.setup(
         'python-dotenv >=0.7.1, <1.0',
         'admitad >=1.1.1, <2.0',
         'ply >=3.10, <4.0',
+        'requests >=2.18.1, <3.0',
         'Jinja2 >=2.9.6, <3.0',
     ],
     python_requires='>=3.5, <4.0',
