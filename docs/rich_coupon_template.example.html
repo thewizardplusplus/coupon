@@ -13,3 +13,13 @@
   {% set cut_mark = '<!--more-->' %}
   {{ coupon.description|e|cut(cut_mark)|to_paragraphs('<p>{}</p>', cut_mark) }}
 {% endif %}
+{% if
+  coupon.promocode
+  and coupon.promocode != 'НЕ НУЖЕН'
+  and coupon.promocode != 'NOT REQUIRED'
+%}
+  <p>
+    <strong>Промокод:</strong>
+    {{ coupon.promocode }}
+  </p>
+{% endif %}
