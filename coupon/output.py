@@ -63,12 +63,18 @@ def output_coupons(coupons):
 def output_coupon_to_file(coupon, template, base_path):
     with open(os.path.join(
         base_path,
-        'coupon_{}.html'.format(coupon['id']),
+        make_coupon_filename(coupon),
     ), mode='w', encoding='utf-8') as coupon_file:
         coupon_file.write(format_coupon(coupon, template))
 
 def output_coupon_to_stdout(coupon, template):
     print(format_coupon(coupon, template))
+
+def make_coupon_filename(coupon):
+    return 'coupon_{}_{}.html'.format(
+        coupon['date_end'].strftime(consts.ADMITAD_TIMESTAMP_FORMAT),
+        coupon['id'],
+    )
 
 def format_coupon(coupon, template):
     return template.render(coupon=coupon)
