@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
 export $(grep -v '^#' .env | xargs)
-echo "$COUPON_OUTPUT_PATH"
-echo "$COUPON_TIMESTAMP_GAP"
+for file in $(find "$COUPON_OUTPUT_PATH" -maxdepth 1 -type f -name *.html); do
+  echo "\"$file\""
+done
