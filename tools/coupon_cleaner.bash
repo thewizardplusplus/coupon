@@ -15,5 +15,6 @@ for file in $(find "$COUPON_OUTPUT_PATH" -maxdepth 1 -type f -name *.html); do
   declare parsed_timestamp="$(date --date "$timestamp" +%s)"
   if ((parsed_timestamp - current_timestamp < COUPON_TIMESTAMP_GAP)); then
     log "remove the coupon #$coupon_id"
+    rm -f "$file"
   fi
 done
