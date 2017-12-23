@@ -1,9 +1,11 @@
 import os
+import datetime
 
 import termcolor
 
 from . import logger
 from . import db
+from . import consts
 from .script import parse
 from .script import evaluate
 
@@ -12,9 +14,11 @@ def filter_coupons(db_connection, coupons):
     filter_by_campaigns = make_filter_by_campaigns()
     filter_by_database = make_filter_by_database(db_connection)
     filter_by_script = make_filter_by_script()
+    filter_by_timestamp = make_filter_by_timestamp()
     for coupon in coupons:
         try:
             if filter_by_id(coupon) \
+                and filter_by_timestamp(coupon) \
                 and (filter_by_campaigns(coupon) \
                     or (filter_by_database(coupon) \
                         and filter_by_script(coupon))):
@@ -66,3 +70,11 @@ def make_filter_by_id(db_connection):
         db_connection,
         coupon['id'],
     )
+
+def make_filter_by_timestamp():
+    timestamp_gap = abs(int(os.environ.get('COUPON_TIMESTAMP_GAP', '0')))
+    current_timestamp = datetime.datetime.now()
+    return lambda coupon: timestamp_gap <= (datetime.datetime.strptime(
+        coupon['date_end'],
+        consts.ADMITAD_TIMESTAMP_FORMAT,
+    ) - current_timestamp).total_seconds()
