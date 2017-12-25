@@ -7,16 +7,23 @@ function log() {
   echo "$(date --rfc-3339=ns) [$level] $message" >&2
 }
 
+function get_segment() {
+  declare -r text="$1"
+  declare -ri number=$2
+
+  echo "$text" | cut -d_ -f$number
+}
+
 export $(grep -v '^#' .env | xargs)
 declare current_timestamp="$(date +%s)"
 for file in $(find "$COUPON_OUTPUT_PATH" -maxdepth 1 -type f -name *.html); do
   declare filename="$(basename "$file" .html)"
-  declare coupon_id="$(echo "$filename" | cut -d_ -f3)"
-  declare timestamp="$(echo "$filename" | cut -d_ -f2)"
+  declare coupon_id="$(get_segment "$filename" 3)"
+  declare timestamp="$(get_segment "$filename" 2)"
   declare parsed_timestamp
   parsed_timestamp="$(date --date "$timestamp" +%s 2>/dev/null)"
   if [[ $? != 0 ]]; then
-    declare coupon_id="$(echo "$filename" | cut -d_ -f2)"
+    declare coupon_id="$(get_segment "$filename" 2)"
     log WARNING "coupon #$coupon_id has an incorrect timestamp"
 
     continue
