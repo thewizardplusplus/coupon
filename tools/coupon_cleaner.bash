@@ -15,7 +15,7 @@ function get_segment() {
 }
 
 export $(grep -v '^#' .env | xargs)
-declare current_timestamp="$(date +%s)"
+declare -ri current_timestamp="$(date +%s)"
 for file in $(find "$COUPON_OUTPUT_PATH" -maxdepth 1 -type f -name *.html); do
   declare filename="$(basename "$file" .html)"
   declare coupon_id="$(get_segment "$filename" 3)"
