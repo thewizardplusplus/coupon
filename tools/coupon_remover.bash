@@ -20,4 +20,7 @@ for file in $(find "$output_path" -maxdepth 1 -type f -name *.html); do
     log WARNING "unable to remove the coupon #$coupon_id from the database"
     continue
   fi
+
+  log INFO "remove the coupon #$coupon_id from files"
+  rm -f "$file"
 done
