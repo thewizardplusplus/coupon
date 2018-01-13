@@ -15,8 +15,10 @@ function get_segment() {
 }
 
 export $(grep -v '^#' .env | xargs)
+declare -r output_path="${COUPON_OUTPUT_PATH:-./coupons/}"
+declare -ri timestamp_gap="${COUPON_TIMESTAMP_GAP:-0}"
 declare -ri current_timestamp="$(date +%s)"
-for file in $(find "$COUPON_OUTPUT_PATH" -maxdepth 1 -type f -name *.html); do
+for file in $(find "$output_path" -maxdepth 1 -type f -name *.html); do
   declare filename="$(basename "$file" .html)"
   declare coupon_id="$(get_segment "$filename" 3)"
   declare timestamp="$(get_segment "$filename" 2)"
@@ -29,7 +31,7 @@ for file in $(find "$COUPON_OUTPUT_PATH" -maxdepth 1 -type f -name *.html); do
     continue
   fi
 
-  if ((parsed_timestamp - current_timestamp < COUPON_TIMESTAMP_GAP)); then
+  if ((parsed_timestamp - current_timestamp < timestamp_gap)); then
     log INFO "remove the coupon #$coupon_id"
     rm -f "$file"
   fi
