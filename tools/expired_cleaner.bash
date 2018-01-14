@@ -18,7 +18,7 @@ export $(grep -v '^#' .env | xargs)
 log INFO "load the .env config $(realpath .env)"
 
 declare -r output_path="${COUPON_OUTPUT_PATH:-./coupons/}"
-declare -r coupons="$(find "$output_path" -maxdepth 1 -type f -name *.html)"
+declare -r coupons="$(find "$output_path" -maxdepth 1 -type f -name '*.html')"
 log INFO "find $(echo -n "$coupons" | wc -l) coupons"
 
 declare -ri timestamp_gap="${COUPON_TIMESTAMP_GAP:-0}"
