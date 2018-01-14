@@ -8,7 +8,7 @@ packages = setuptools.find_packages()
 package_name = packages[0]
 setuptools.setup(
     name=package_name,
-    version='1.1.0',
+    version='1.2.0',
     license='MIT',
     author='thewizardplusplus',
     author_email='thewizardplusplus@yandex.ru',
