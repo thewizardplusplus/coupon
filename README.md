@@ -7,12 +7,14 @@ Utility for a getting and a formatting of coupons from the [admitad](https://www
 - log in an [admitad](https://www.admitad.com/) account;
 - getting of a coupon list for a specific website;
 - filter a coupon list:
-  - filter by a script in the microlanguage (see below for details);
+  - filter by a script in the microlanguage;
   - disable a filtering for specified campaigns;
   - via a remembering in an SQLite database:
     - limit a frequency of coupons with same campaigns;
     - skip coupons that were previously processed;
+  - skip expired and expiring coupons (with a customizable gap before an end time of a coupon);
 - output a coupon list:
+  - generate a beautiful link by a resolving of a redirection of a coupon link;
   - format an output:
     - format an output with an Jinja2 template;
     - Jinja2 template extensions:
@@ -21,8 +23,12 @@ Utility for a getting and a formatting of coupons from the [admitad](https://www
       - extract a cut (first sentence) with a specific cut mark;
       - split a text to paragraphs with a specific paragraph format (optionally skip a specific cut mark);
   - output target may be:
-    - separate files;
-    - stdout.
+    - separate files:
+      - save an end date of a coupon into its filename;
+    - stdout;
+- utilities:
+  - for a removing of expired and expiring coupons (with a customizable gap before an end time of a coupon);
+  - for a removing of coupons from a database and files simultaneously.
 
 ## Installation
 
@@ -66,7 +72,8 @@ Environment variables:
 - `COUPON_CAMPAIGNS` &mdash; comma-separated list of disabled campaigns (default: `Domino's Pizza, Связной, Юлмарт`);
 - `COUPON_DATABASE` &mdash; path to the SQLite database (default: `./coupon.db`);
 - `COUPON_NUMBER` &mdash; allowed count of coupons with same campaigns (default: `1`);
-- `COUPON_INTERVAL` &mdash; time window for restriction of coupons with same campaigns (default: `86400`).
+- `COUPON_INTERVAL` &mdash; time window for restriction of coupons with same campaigns (default: `86400`);
+- `COUPON_TIMESTAMP_GAP` &mdash; gap before an end time of a coupon for skipping of expiring coupons (default: `0`).
 
 Environment variables can be specified in a `.env` config in the format:
 
